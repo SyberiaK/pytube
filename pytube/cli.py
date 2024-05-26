@@ -56,34 +56,28 @@ def main():
 def _perform_args_on_youtube(
     youtube: YouTube, args: argparse.Namespace
 ) -> None:
-    if len(sys.argv) == 2 :  # no arguments parsed
-        download_highest_resolution_progressive(
-            youtube=youtube, resolution="highest", target=args.target
-        )
     if args.list_captions:
         _print_available_captions(youtube.captions)
-    if args.list:
+    elif args.list:
         display_streams(youtube)
+        return
+        
     if args.build_playback_report:
         build_playback_report(youtube)
-    if args.itag:
-        download_by_itag(youtube=youtube, itag=args.itag, target=args.target)
+        
     if args.caption_code:
-        download_caption(
-            youtube=youtube, lang_code=args.caption_code, target=args.target
-        )
-    if args.resolution:
-        download_by_resolution(
-            youtube=youtube, resolution=args.resolution, target=args.target
-        )
-    if args.audio:
-        download_audio(
-            youtube=youtube, filetype=args.audio, target=args.target
-        )
-    if args.ffmpeg:
-        ffmpeg_process(
-            youtube=youtube, resolution=args.ffmpeg, target=args.target
-        )
+        download_caption(youtube, lang_code=args.caption_code, target=args.target)   
+     
+    if args.itag:
+        download_by_itag(youtube, itag=args.itag, target=args.target)
+    elif args.resolution:
+        download_by_resolution(youtube, resolution=args.resolution, target=args.target)
+    elif args.audio:
+        download_audio(youtube, filetype=args.audio, target=args.target)
+    elif args.ffmpeg:
+        ffmpeg_process(youtube, resolution=args.ffmpeg, target=args.target)
+    else:
+        download_highest_resolution_progressive(youtube, target=args.target)
 
 
 def _parse_args(
