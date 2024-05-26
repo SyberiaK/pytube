@@ -452,7 +452,7 @@ def download_by_resolution(
 
 
 def download_highest_resolution_progressive(
-    youtube: YouTube, resolution: str, target: Optional[str] = None
+    youtube: YouTube, target: Optional[str] = None
 ) -> None:
     """Start downloading the highest resolution progressive stream.
 
